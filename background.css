@@ -1,0 +1,40 @@
+/*
+1. gradienty css są traktowane jako background-image.
+2. Podstawowymi wartościami gradient są: rodzajGradientu(kolor startowy, kolor końcowy)
+3. Można je rozbudowywać, np. rodzajGradientu(stopien, kolorStartowy punktRozpoczęcia, kolorStartowy punktZakończenia, kolorKońcowy punktRozpoczęcia, kolorKońcowy punktZakończenia);
+4. Ponieważ gradient jest "obrazem", możemy dać background-size o niewielkich wartościach i skorzystać z automatycznej muliplikacji obrazu na całe tło pojemnika
+5. Patterny tworzymy tak jak w illustratorze czy gdzie indziej – trzeba tylko mocniej przemyśleć zapis
+*/
+
+body{
+	repeating linear gradient będzie powtarzał się sam, nie ma potrzebny dodawania background-size
+	background-image: repeating-linear-gradient(45deg, #CE8964, #CE8964 10px, #EAF27C 10px, #EAF27C 20px);
+	/*background-size: 60px 60px;*/
+	/*background-repeat: no-repeat;*/
+}
+#jeden{
+	/*można dodawać więcej niż jeden gradient do tagu; tutaj tworzymy kratkę*/
+	background-image: linear-gradient(rgba(225, 0, 0, .5) 50%, transparent 50%), 
+					linear-gradient(90deg, rgba(225, 0, 0, .5) 50%, transparent 50%);
+	background-size: 20px 20px;
+}
+#dwa{
+	/*
+	kropeczki. Tworzymy gradient kołowy dwa razy, przy czym na background-position przesuwamy jeden o połowę wysokości w doł i połowę szerokości w prawo. W ten sposób nasz pattern nie będzie szedł liniami, ale po skosie.
+	Dodatkowo dajemy mikroprzesunięcie w załamaniu koloru (30 do 33%) Dzięki temu pozbywamy się tych okropnych ząbków
+	*/
+	background-image: radial-gradient( #041F1E 30%, transparent 33%), radial-gradient( #041F1E 30%, transparent 33%);
+	background-size: 30px 30px;
+	background-position: 0 0, 15px 15px;
+}
+
+#trzy{/*
+	Biblioteka patternów: http://lea.verou.me/css3patterns/
+	Warto sobie pokopiować i pobawić się, aby odkryć, jaka logika się za nimi kryje*/
+	background-image:
+	radial-gradient(closest-side, transparent 0%, transparent 15%, #B6CC66 76%, #B6CC66 85%, #EDFFDB 86%, #EDFFDB 94%, #FFFFFF 95%, #FFFFFF 103%, #D9E6A7 104%, #D9E6A7 112%, #798B3C 113%, #798B3C 121%, #FFFFFF 122%, #FFFFFF 130%, #E0EAD7 131%, #E0EAD7 140%),
+	radial-gradient(closest-side, transparent 0%, transparent 15%, #B6CC66 76%, #B6CC66 85%, #EDFFDB 86%, #EDFFDB 94%, #FFFFFF 95%, #FFFFFF 103%, #D9E6A7 104%, #D9E6A7 112%, #798B3C 113%, #798B3C 121%, #FFFFFF 122%, #FFFFFF 130%, #E0EAD7 131%, #E0EAD7 140%);
+	background-size: 110px 110px;
+	background-color: #C8D3A7;
+	background-position: 0 0, 55px 55px;
+}

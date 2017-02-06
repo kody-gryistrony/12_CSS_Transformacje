@@ -1,0 +1,76 @@
+body{
+	margin: 0;
+	font-size: 30pt;
+}
+div{
+	width: 10em;
+	height: 6em;
+	margin: 2em auto;
+	/*nie powiedziałam o tym:
+	domyślną wartością transform-style jest flat. 
+	Oznacza to, że obiekty transformować się będą w 3d, ale nie będą 3d względem siebie. 
+	Transform-style: preserve-3d; zachowa ich relację w 3d.
+	Demo: http://www.w3schools.com/cssref/tryit.asp?filename=trycss3_transform-style*/
+	transform-style: preserve-3d;
+}
+p{
+	font-family: Verdana, Arial, sans-serif;
+	color: white;
+	padding: 1em 0 0 1em;
+}
+#jeden{
+	background-color: #cddc39;
+	/*translate nie ma wpływu na layout, jednak przenosi element ze wszystkimi jego WCZEŚNIEJ wygenerowanymi właściwościami
+	Zwrócić uwagę na margin: auto;*/
+	transform: translateX(200px) translateY(50px);
+}
+#dwa{
+	background-color: #f44336;
+	/*Scale (podobnie jak wszystkie transform) ma wpływ również na dzieci elementu
+	Wartości scale podajemy w ułamkach dziesiętnych
+	*/
+	transform: scale(1.2, 1.4);
+}
+#trzy{
+	background-color: #607d8b;
+	/*"Kopnięcie". Skew nie działa dla osi Z, więc tego typu "odchylenia" będziemy robić łącząć rotację z perspektywą
+	Dla poćwiczenia można pozmieniać tutaj stopnie oraz dodać skewY i pozmieniać trasform-origin
+	*/
+	transform: skewX(30deg);
+}
+
+/*Jeżeli chcemy sprawić, by nasz element miał tło np. trapezoidalne, ale jego środek (np. tekst) pozostał nienaruszony, musimy skorzystać z pseudoelementów. Logika jest taka:
+1. Mamy div rodzic i p dziecko, w którym znajduje się tekst
+2. Tworzymy pseudoelement w div który jest jego idealną kopią (absolutnie wypozycjonowany, zajmuje pełną wysokość i szerokość)
+3. Transform wprowadzamy w pseudoelemencie. Pseudoelement nie ma wpływu na dzieci diva
+4. Uzględniamy różnice w wielkości "tła" stworzonego w pseudoelemencie dla dziecka
+5. Być może przyda nam się z-index – czyli numer warstwy na osi Z, czyli na osi głębi*/
+#cztery{
+	/*position: relative – aby nasz pseudoelement wypozycjonował się względem tego rodzica */
+	position: relative;
+}
+#cztery:before{
+	/*pusty kontent – tworzymy pseudoelement*/
+	content: '';
+	/*pozycjonujemy do idealnie do rodzica*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #e91e63;
+	/*tutaj robimy nasz trapez: obracamy prostokąt względem osi X i dajemy mu odrobinę perspektywy, aby jeszcze bardziej "poszedł nam" do tyłu. Manipulacja scale pozwoli dostosować go jak najbliżej wielkości rodzica.*/
+	transform: perspective(.5em) scaleY(1.8) rotateX(5deg) ;
+	/* https://css-tricks.com/how-to-deal-with-vendor-prefixes/ */
+	-webkit-transform: perspective(.5em) scaleY(1.8) rotateX(5deg) ;
+	/*transform-origin pozwala ustalić, gdzie znajduje się oś względem której wykonujemy transform. Na górze? Na środku? Możesz sprawdzić co się dzieje i kiedy*/
+	transform-origin: bottom;
+	/*Dajemy pseudoelementowi z-index minusowy, aby nie zasłaniał nam faktycznych dzieci diva #cztery*/
+	z-index: -1;
+
+}
+#cztery p{
+	/*Uwzględniamy różnice w wielkości tła. Dodatkowo dla bezpieczeństwa dajemy z-index o wartości większej niż pseudoelementu*/
+	padding-top: 90px;
+	z-index: 2;
+}
